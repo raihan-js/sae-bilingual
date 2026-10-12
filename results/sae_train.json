@@ -1,0 +1,11 @@
+{
+  "layer": 12,
+  "tokens": 2000439,
+  "mse": 0.10003,
+  "l0": 64.0,
+  "dead": 0,
+  "d_sae": 32768,
+  "dead_rate": 0.0,
+  "var_explained": 0.9771,
+  "secs": 474
+}

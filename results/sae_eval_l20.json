@@ -1,0 +1,10 @@
+{
+  "heldout_tokens": 101516,
+  "heldout_dead": 19107,
+  "heldout_dead_rate": 0.5831,
+  "loss_tokens": 632725,
+  "base_loss": 2.6258,
+  "sae_loss": 3.3645,
+  "loss_delta": 0.7387,
+  "secs": 323
+}
