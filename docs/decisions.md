@@ -26,3 +26,15 @@
 - L4: dead 0.27, loss +0.28 | L12 (no resample): dead 0.59, loss +0.31 |
   L20: dead 0.58, loss +0.74. Late layer hardest (MSE 0.97, churn 115k).
 - Retraining L12 WITH resampling for a fair comparison.
+
+## 2026-10-13 — M2 sharing: rises then falls; ladder entities->concepts->script
+- 20k Tatoeba pairs, sentence-max Pearson on top-2k both-firing candidates:
+  L4 share(r>.5) 0.246 mean .326 / L12 0.287 mean .368 / L20 0.131 mean .215.
+- Qualitative ladder: L4 top = NAME detectors (Mary/Maria r=.99); L12 top =
+  CONCEPTS (burning: house burned + 家は燃え…); L20 mixed incl. script
+  features (英 kanji-prefix, r=.90) + places (Paris/London cross-lingual).
+- Caveat: L20 SAE is the worst (FVE .84, dead .58) — its sharing drop may be
+  SAE quality, not a model property. Stated, not smoothed over.
+- Numerics: Pearson MUST be float64 + clamped (fp32 catastrophic
+  cancellation gave mean_r -3e8); grad retention via accumulators fixed with
+  no_grad (7GB leak); analysis chunks 2048.
