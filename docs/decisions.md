@@ -38,3 +38,16 @@
 - Numerics: Pearson MUST be float64 + clamped (fp32 catastrophic
   cancellation gave mean_r -3e8); grad retention via accumulators fixed with
   no_grad (7GB leak); analysis chunks 2048.
+
+## 2026-10-13 — M3 causal: borderline JA, null EN, steering uninformative
+- Paired design (30 shared + 30 random, same prompts, n=30, t-CIs):
+  ablate_ja -0.046 [-0.068,-0.023] EXCLUDES zero; ablate_en -0.010
+  [-0.020,+0.0001] includes zero; steer negative both langs (alpha 8.0
+  overshoots off-manifold — uninformative re: direction, admitted in prereg).
+- Crucial context: absolute damage dominates (JA shared -0.48 vs random
+  -0.44; EN -0.18 vs -0.17). Zeroing SAE features off-manifold hurts
+  everything (recon loss +0.3 already showed fragility); the shared-specific
+  increment is ~10% of generic damage in JA, ~0 in EN.
+- Verdict (no spin): weak causal evidence in JA only; EN null; steering
+  inconclusive by construction. The control design cannot cleanly separate
+  feature importance from SAE fragility. Stated, then M4.
