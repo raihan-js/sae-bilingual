@@ -3,7 +3,6 @@ one model pass, 3 hooks). Writes data/analysis/l{L}.pt {acts f16, ids i32,
 lang u8 (0=ja,1=en), pair i32}. ~2.5GB/layer, deleted after analysis.
 """
 import json
-import sys
 import time
 from pathlib import Path
 
@@ -18,7 +17,8 @@ def main() -> None:
     model = AutoModelForCausalLM.from_pretrained(
         "llm-jp/llm-jp-3-1.8b", dtype=torch.bfloat16, device_map="cuda:0",
         trust_remote_code=True, attn_implementation="eager").eval()
-    pairs = [json.loads(line) for line in open("data/pairs.jsonl", encoding="utf-8")]
+    with open("data/pairs.jsonl", encoding="utf-8") as f:
+        pairs = [json.loads(line) for line in f]
     out = Path("data/analysis")
     out.mkdir(parents=True, exist_ok=True)
     bufs: dict[int, list] = {L: [] for L in LAYERS}

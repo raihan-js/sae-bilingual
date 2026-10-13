@@ -12,7 +12,7 @@ from pathlib import Path
 import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
-from sae.model import TopKSAE  # noqa: E402
+from sae.model import TopKSAE
 
 
 def main() -> None:
@@ -20,7 +20,8 @@ def main() -> None:
     d = torch.load(f"data/analysis/l{layer}.pt", weights_only=True)
     acts, lang, pair = d["acts"].float(), d["lang"], d["pair"]
     del d
-    pairs = [json.loads(line) for line in open("data/pairs.jsonl", encoding="utf-8")]
+    with open("data/pairs.jsonl", encoding="utf-8") as f:
+        pairs = [json.loads(line) for line in f]
     sae = TopKSAE.from_state(
         torch.load(f"models/sae_l{layer}.pt", weights_only=True)).cuda().eval()
     n_feat = sae.encoder.out_features
